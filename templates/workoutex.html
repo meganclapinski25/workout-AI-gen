@@ -16,10 +16,10 @@
             <nav class="nav nav-masthead justify-content-center">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                      <a class="nav-link active" href="#">Home</a>
+                      <a class="nav-link "  href="{{url_for('homepage')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Create A Workout</a>
+                      <a class="nav-link active" href="{{url_for('workoutpage')}}">Create A Workout</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#">FAQ</a>
@@ -29,6 +29,49 @@
             </nav>
           </div>
         </header>
+    </div>
+    <div class="container">
+        <label for="weight">Enter Weight:</label>
+        <input type="number" id="weight" name="weight" required>
+        
+        <label for="height">Enter Height:</label>
+        <input type="number" id="weight" name="weight" required>
+
+        <!--Dropdown for program-->
+        <label for="program">Select Program: </label>
+        <select id="program" name="program">
+            <option value="" disabled selected>Select a Program</option> 
+            <option value="soccer">Soccer</option>
+            <option value="basketball">Basketball</option>
+            <option value="baseball">Baseball</option>
+            <option value="tennis">Tennis</option>
+            <option value="lose weight">Lose Weight</option>
+        </select>
+        <!--Radios for calories -->
+        <label>Calorie Options: </label>
+        <div class="form-check">
+            <input type="radio" name="calorie" value="cut" id="calorie_cut">
+            <label for="calorie_cut">Cut Calories</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" name="calorie" value="maintain" id="calorie_maintain">
+            <label for="calorie_maintain">Maintain Calories</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" name="calorie" value="bulk" id="calorie_bulk">
+            <label for="calorie_bulk">Bulk Calories</label>
+        </div>
+        
+        
+
+
+
+
+
+
+
+
+
     </div>
 </body>
 </html>
