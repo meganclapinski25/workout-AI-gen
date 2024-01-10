@@ -30,48 +30,77 @@
           </div>
         </header>
     </div>
-    <div class="container">
-        <label for="weight">Enter Weight:</label>
-        <input type="number" id="weight" name="weight" required>
-        
-        <label for="height">Enter Height:</label>
-        <input type="number" id="weight" name="weight" required>
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 mt-4">
+                <form action="{{ url_for('process_information') }}" method="POST">
 
-        <!--Dropdown for program-->
-        <label for="program">Select Program: </label>
-        <select id="program" name="program">
-            <option value="" disabled selected>Select a Program</option> 
-            <option value="soccer">Soccer</option>
-            <option value="basketball">Basketball</option>
-            <option value="baseball">Baseball</option>
-            <option value="tennis">Tennis</option>
-            <option value="lose weight">Lose Weight</option>
-        </select>
-        <!--Radios for calories -->
-        <label>Calorie Options: </label>
-        <div class="form-check">
-            <input type="radio" name="calorie" value="cut" id="calorie_cut">
-            <label for="calorie_cut">Cut Calories</label>
+                    <div class="form-group  mb-3">
+                        <label for="weight">Enter Weight:</label>
+                        <input type="text" id="weight" name="weight" class="form-control" required>
+                    </div>
+                
+                    <div class="form-group  mb-3">
+                        <label for="height">Enter Height:</label>
+                        <input type="text" id="height" name="height" class="form-control" required>
+                    </div>
+                
+                <!-- Dropdown for program -->
+                    <div class="form-group  mb-3">
+                        
+                        <select id="program" name="program" class="form-control">
+                            <option value="" disabled selected>Select a Program</option>
+                            <option value="soccer">Soccer</option>
+                            <option value="basketball">Basketball</option>
+                            <option value="baseball">Baseball</option>
+                            <option value="tennis">Tennis</option>
+                            <option value="lose weight">Lose Weight</option>
+                        </select>
+                    </div>
+                
+                <!-- Radios for calories -->
+                    <div class="form-group mb-3">
+                        <label>Calorie Options: </label>
+                        <div class="form-check">
+                            <input type="radio" name="calorie" value="cut" id="calorie_cut">
+                            <label for="calorie_cut">Cut Calories</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="calorie" value="maintain" id="calorie_maintain">
+                            <label for="calorie_maintain">Maintain Calories</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="calorie" value="bulk" id="calorie_bulk">
+                            <label for="calorie_bulk">Bulk Calories</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2 text-center">Submit</button>
+                    </div>
+                
+                
+                </form>
+            </div>
+            <div class="col-md-6 mt-4 text-left">
+                <h1 class="cover-heading text-light">Workouts For You</h1>
+                <p class="lead text-light">Title Of App is one of very few of its kind. We have created an application that creates a workout just for you. Whether you play a sport or workout for fun, Title of App creates a custom workout plan and tracks everything under the sun: progress, calories, and your journey. So join Title of App now!</p>
+            </div>
         </div>
-        <div class="form-check">
-            <input type="radio" name="calorie" value="maintain" id="calorie_maintain">
-            <label for="calorie_maintain">Maintain Calories</label>
-        </div>
-        <div class="form-check">
-            <input type="radio" name="calorie" value="bulk" id="calorie_bulk">
-            <label for="calorie_bulk">Bulk Calories</label>
-        </div>
-        
-        
-
-
-
-
-
-
-
-
-
     </div>
+    
+    
+    
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+    
 </body>
 </html>
