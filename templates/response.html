@@ -3,18 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>ChatGPT Result</h1>
-        <p><strong>Your Workout Prompt:</strong> {{ prompt }}</p>
-        <p><strong>Generated Response:</strong></p>
-        <div class="card">
-            <div class="card-body">
-                {{ generated_response }} 
-            </div>
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <title>Document</title>
+    </head>
+    <body class="text-center bg-dark text-light">
+        
+        <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+              <div class="inner">
+                <h3 class="masthead-brand">Title of App</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="{{url_for('homepage')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{url_for('workoutpage')}}">Create A Workout</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">FAQ</a>
+                        </li>
+                        
+                      </ul>
+                </nav>
+              </div>
+            </header>
         </div>
-    </div>
+      
+            <div class="container-fluid">
+                
+                    
+                    <div class="col-md-6 mt-4">
+                        <img src="{{ url_for('static', filename='images/homepage.png') }}" alt="Your Image" class="img-fluid">
+                    </div>
+                    <div class="container mt-5">
+                        <h1>ChatGPT Result</h1>
+                        <p><strong>Your Workout Prompt:</strong> {{ prompt }}</p>
+                        <p><strong>Generated Response:</strong></p>
+                        <div class="card">
+                            <div class="card-body" style="color: black;">
+                                {{ generated_response }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                  
+      
+            <footer class="mastfoot mt-3">
+              <div class="inner">
+                <p> Footer Information..</p>
+              </div>
+            </footer>
+          </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        </section>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+    <!-- Bootstrap JS and Popper.js scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-4S6sQ4NhdJH8gEEMGQGkTAMKsVcAJrkoHf0J9vENkSy1dQdZg4FOHJTBpZuut9iM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.min.js" integrity="sha384-l6dUGU1Hl3qq4TfycGzRkmpSwFQ5Bi6B2sFSJ6fBqxJKgfcMzNef0l3vOiwy7Lhe" crossorigin="anonymous"></script>
 </body>
 </html>
