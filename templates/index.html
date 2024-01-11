@@ -45,7 +45,7 @@
                         <h1 class="cover-heading text-light">Workouts For You</h1>
                         <p class="lead text-light">Title Of App is one of very few of its kind. We have created an application that creates a workout just for you. Whether you play a sport or workout for fun, Title of App creates a custom workout plan and tracks everything under the sun: progress, calories, and your journey. So join Title of App now!</p>
                         <p class="lead">
-                            <form>
+                            <form method="post" action="{{ url_for('register') }}">
                                 <div class="form-group" style="margin-bottom: 10px;">
                                     <input type="email" name = "username" class="form-control" id="exampleInputEmail"  placeholder="Email">
                                   </div>
@@ -58,8 +58,9 @@
                                   <div class="form-group" style="margin-bottom: 10px;">
                                     <input type="tel"  name = "phonenumber"  class="form-control id="exampleInputPhoneNumber" placeholder="Phone Number">
                                   </div>
+                                  <button type="submit" class="btn btn-primary">Sign Up</button>
                             </form>
-                            <a href="#" class="btn btn-lg btn-primary ">Sign Up</a>
+                            
                         </p>
                     </main>
                 </div>

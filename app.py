@@ -19,9 +19,24 @@ import bcrypt
 
 app = Flask(__name__)
 load_dotenv()
+ca = certifi.where()
+# get this path from the panel on mongodb.com
+uri = "mongodb+srv://meganclapinski:pjqBwnbY83tONHQ6@firstdata.2divsl3.mongodb.net/test?retryWrites=true&w=majority"
 
-app.config["MONGO_URI"] = os.getenv("MONGO_URI")
-mongo = PyMongo(app)
+# Create a new client and connect to the server
+client = MongoClient(uri, tlsCAFile=ca)
+# Get the database named plantsdatabase
+temp = client.usersdatabase
+
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+
+except Exception as e:
+    print(e)
+
+
 
 
 openai.api_key = os.environ.get('API_KEY')
@@ -48,17 +63,17 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        returning_user = mongo.db.users.find_one({'username': username})
+        returning_user = temp.db.users.find_one({'username': username})
         if returning_user:
             return render_template('index.html')
         
         user_data = {'username': username, 'password': password}
-        mongo.db.users.insert_one(user_data)
-        session['user'] = username
+        temp.db.users.insert_one(user_data)
+        
         
         return redirect(url_for('homepage'))
     
-    return render_template('index.html')
+    
 
 
 @app.route('/information', methods=['POST'])
