@@ -66,39 +66,32 @@ def loginpage():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    #Used this in order to populate a new collection in database with the username 
+    #before the user did anything to create a workout 
     if request.method == 'POST':
         username = request.form.get('username')
-        password = request.form.get('password')
 
-        returning_user = temp.db.users.find_one({'username': username})
-        if returning_user:
-            return render_template('users.html', username = username)
-        
-        user_data = {'username': username, 'password': password}
+        user_data = {'username': username}
         temp.db.users.insert_one(user_data)
         session['username'] = username
-        user_data = {
-            'username': username,
-            'password': password,
-            'sex': request.form.get('sex'),
-            'height': request.form.get('height'),
-            'weight': request.form.get('weight'),
-            'program': request.form.get('program'),
-            'freq': request.form.get('freq')
-
-        }
+        
         
         return redirect(url_for('profile', username=username))
 
     
 @app.route('/users/<username>')
 def profile(username):
-    session_username = session.get('username')
-    user_data = temp.db.users.find_one({'username': session_username})
-    return render_template('users.html', username=session_username)
+    #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
+    if 'username' in session:
+        username = session['username']
+        user_data = temp.db.users.find_one({'username': username})
+        return render_template('users.html', username=username, user_data=user_data)
+    else:
+        return redirect(url_for('loginpage'))
 
 @app.route('/information', methods=['POST'])
 def process_information():
+    #Used for before chatgbt api was implemented, just was proof that I could see the form inputs in html
     height = request.form.get('height')
     weight = request.form.get('weight')
     program = request.form.get('program')
@@ -112,6 +105,7 @@ def process_information():
 
 @app.route('/chatgbt_workout', methods=['GET'])
 def workoutgen():
+    #Take in the users inputs/information and takes it through the prompt, of the chatgbt api
     
     height = request.args.get('height')
     weight = request.args.get('weight')
@@ -120,18 +114,20 @@ def workoutgen():
     sex = request.args.get('sex')
     freq = request.args.get('freq')
     username = session.get('username')
+    #populates the database with the new information
     temp.db.users.update_one(
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
     
-    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} based on the {freq}"
+    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} days a week. Organizw the workout by days example day 1,day 2 etc"
     response = openai.Completion.create(
         model="gpt-3.5-turbo-instruct",
         prompt = prompt,
         max_tokens=400,
         
     )
+
     generated_response = response['choices'][0]['text']
     username = session.get('username')
     return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)

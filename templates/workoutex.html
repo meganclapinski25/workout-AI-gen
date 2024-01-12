@@ -6,17 +6,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>FlexFlow</title>
 </head>
 <body class="text-center bg-dark text-light">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
           <div class="inner">
-            <h3 class="masthead-brand">Title of App</h3>
-            <nav class="nav nav-masthead justify-content-center">
+            <a href="{{ url_for('homepage') }}" style="text-decoration: none;font-size: 24px; padding-bottom: 10%; color: whitesmoke;">Flex Flow</a>
+            
+            <nav class="nav nav-masthead justify-content-center pt-3">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                      <a class="nav-link "  href="{{url_for('homepage')}}">Home</a>
+                      <a class="nav-link "  href="{{url_for('profile', username=session['username'])}}">Profile</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link active" href="{{url_for('workoutpage')}}">Create A Workout</a>
@@ -24,9 +25,7 @@
                     <li class="nav-item">
                       <a class="nav-link" href="#">FAQ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Log In</a>
-                      </li>
+                   
                     
                   </ul>
             </nav>
@@ -48,12 +47,17 @@
                         <input type="text" id="height" name="height" class="form-control" required>
                     </div>
                     <div class="form-group  mb-3">
-                        <label for="height">Enter Frequency:</label>
-                        <input type="text" id="freq" name="freq" class="form-control" required>
+                        <label for="freq">Enter Frequency:</label>
+                        <input type="number" id="freq" name="freq" class="form-control" required>
                     </div>
                     <div class="form-group  mb-3">
-                        <label for="height">Enter Sex:</label>
-                        <input type="text" id="sex" name="sex" class="form-control" required>
+                        <label for="sex"></label>
+                        <select id="sex" name="sex" class="form-control" required>
+                            <option value="" disabled selected>Select a Sex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                 
                 <!-- Dropdown for program -->
@@ -66,6 +70,9 @@
                             <option value="baseball">Baseball</option>
                             <option value="tennis">Tennis</option>
                             <option value="lose weight">Lose Weight</option>
+                            <option value="gain muscle">Gain Muscle</option>
+                            <option value="football">Football</option>
+                            <option value="running">Running</option>
                         </select>
                     </div>
                 
@@ -92,7 +99,7 @@
             </div>
             <div class="col-md-6 mt-4 text-left">
                 <h1 class="cover-heading text-light">Workouts For You</h1>
-                <p class="lead text-light">Title Of App is one of very few of its kind. We have created an application that creates a workout just for you. Whether you play a sport or workout for fun, Title of App creates a custom workout plan and tracks everything under the sun: progress, calories, and your journey. So join Title of App now!</p>
+                <p class="lead text-light">FlexFlow uses cutting technology, to create unquie workouts for You! Taking in your information, AI will custom create a workout plan that fulfills your needs.</p>
             </div>
         </div>
     </div>
