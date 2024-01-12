@@ -50,8 +50,7 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 
 @app.route('/')
 def homepage():
-    if 'username' in session:
-        return 'You are logged in as ' + session['username']
+    
     return render_template('index.html')
 
 @app.route('/workoutpage')
@@ -62,11 +61,7 @@ def workoutpage():
 def loginpage():
     return render_template('login.html')
 
-@app.route('/users/<username>')
-def profile():
-    session_username = session.get('username')
-    user_data = temp.db.users.find_one({'username': session_username})
-    return render_template('users.html', username=session_username)
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -82,18 +77,32 @@ def register():
         user_data = {'username': username, 'password': password}
         temp.db.users.insert_one(user_data)
         session['username'] = username
+        user_data = {
+            'username': username,
+            'password': password,
+            'sex': request.form.get('sex'),
+            'height': request.form.get('height'),
+            'weight': request.form.get('weight'),
+            'program': request.form.get('program'),
+            'freq': request.form.get('freq')
+
+        }
         
         return redirect(url_for('profile', username=username))
 
     
-
+@app.route('/users/<username>')
+def profile(username):
+    session_username = session.get('username')
+    user_data = temp.db.users.find_one({'username': session_username})
+    return render_template('users.html', username=session_username)
 
 @app.route('/information', methods=['POST'])
 def process_information():
     height = request.form.get('height')
     weight = request.form.get('weight')
     program = request.form.get('program')
-    ##frequency = request.form.get('frequency')
+    
     calories = request.form.get('calorie')
     sex = request.form.get('sex')
     freq = request.form.get('freq')
@@ -125,7 +134,7 @@ def workoutgen():
     )
     generated_response = response['choices'][0]['text']
     username = session.get('username')
-    return render_template('users.html', height=height, weight=weight, program=program, calorie=calorie, prompt=prompt, generated_response=generated_response)
+    return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
 
 
 
