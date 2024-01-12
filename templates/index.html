@@ -25,6 +25,9 @@
                     <li class="nav-item">
                       <a class="nav-link" href="#">FAQ</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{url_for('loginpage')}}">Log In</a>
+                    </li>
                     
                   </ul>
             </nav>
@@ -47,7 +50,7 @@
                         <p class="lead">
                             <form method="post" action="{{ url_for('register') }}">
                                 <div class="form-group" style="margin-bottom: 10px;">
-                                    <input type="email" name = "username" class="form-control" id="exampleInputEmail"  placeholder="Email">
+                                    <input type="username" name = "username" class="form-control" id="exampleInputEmail"  placeholder="Username">
                                   </div>
                                   <div class="form-group" style="margin-bottom: 10px;">                                    
                                     <input type="password" name = "password" class="form-control" id="exampleInputPassword" placeholder="Password">
@@ -56,7 +59,7 @@
                                     <input type="password" class="form-control" id="exampleInputRePassword" placeholder="Retype Password">
                                   </div>
                                   <div class="form-group" style="margin-bottom: 10px;">
-                                    <input type="tel"  name = "phonenumber"  class="form-control id="exampleInputPhoneNumber" placeholder="Phone Number">
+                                    <input type="tel"  name = "phonenumber"  class="form-control" id="exampleInputPhoneNumber" placeholder="Phone Number">
                                   </div>
                                   <button type="submit" class="btn btn-primary">Sign Up</button>
                             </form>

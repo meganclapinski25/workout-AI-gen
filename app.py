@@ -18,6 +18,7 @@ import bcrypt
 
 
 app = Flask(__name__)
+app.secret_key = '2525'
 load_dotenv()
 ca = certifi.where()
 # get this path from the panel on mongodb.com
@@ -57,6 +58,17 @@ def homepage():
 def workoutpage():
     return render_template('workoutex.html')
 
+@app.route('/loginpage')
+def loginpage():
+    return render_template('login.html')
+
+@app.route('/users/<username>')
+def profile():
+    session_username = session.get('username')
+    user_data = temp.db.users.find_one({'username': session_username})
+    return render_template('users.html', username=session_username)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -65,14 +77,14 @@ def register():
 
         returning_user = temp.db.users.find_one({'username': username})
         if returning_user:
-            return render_template('index.html')
+            return render_template('users.html', username = username)
         
         user_data = {'username': username, 'password': password}
         temp.db.users.insert_one(user_data)
+        session['username'] = username
         
-        
-        return redirect(url_for('homepage'))
-    
+        return redirect(url_for('profile', username=username))
+
     
 
 
@@ -83,17 +95,28 @@ def process_information():
     program = request.form.get('program')
     ##frequency = request.form.get('frequency')
     calories = request.form.get('calorie')
+    sex = request.form.get('sex')
+    freq = request.form.get('freq')
+    username = session.get('username')
 
-    return redirect(url_for('workoutgen', height=height, weight=weight, program=program, calorie=calories))
+    return redirect(url_for('workoutgen', username = username, height=height, weight=weight, program=program, calorie=calories, sex = sex, freq=freq))
 
 @app.route('/chatgbt_workout', methods=['GET'])
 def workoutgen():
+    
     height = request.args.get('height')
     weight = request.args.get('weight')
     program = request.args.get('program')
     calorie = request.args.get('calorie')
-
-    prompt = f"Using {height} {weight} and their calorie goal:{calorie} create a workout program for {program}"
+    sex = request.args.get('sex')
+    freq = request.args.get('freq')
+    username = session.get('username')
+    temp.db.users.update_one(
+        {'username': username},
+        {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
+    )
+    
+    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} based on the {freq}"
     response = openai.Completion.create(
         model="gpt-3.5-turbo-instruct",
         prompt = prompt,
@@ -101,8 +124,8 @@ def workoutgen():
         
     )
     generated_response = response['choices'][0]['text']
-
-    return render_template('response.html', height=height, weight=weight, program=program, calorie=calorie, prompt=prompt, generated_response=generated_response)
+    username = session.get('username')
+    return render_template('users.html', height=height, weight=weight, program=program, calorie=calorie, prompt=prompt, generated_response=generated_response)
 
 
 
