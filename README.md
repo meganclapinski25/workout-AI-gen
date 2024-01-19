@@ -14,9 +14,4 @@ This web application, powered by Flask and ChatGPT API, allows users to create p
 - **ChatGPT API:** OpenAI's ChatGPT for natural language processing and conversation.
 - **HTML/CSS/Javasccript:** Frontend components for user interaction.
 
-## Getting Started
-1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/workout-generator.git
-   cd workout-generator
