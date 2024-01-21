@@ -57,9 +57,9 @@ def homepage():
 def workoutpage():
     return render_template('workoutex.html')
 
-@app.route('/loginpage')
-def loginpage():
-    return render_template('login.html')
+
+
+
 
 
 
@@ -82,12 +82,58 @@ def register():
 @app.route('/users/<username>')
 def profile(username):
     #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
-    if 'username' in session:
         username = session['username']
         user_data = temp.db.users.find_one({'username': username})
         return render_template('users.html', username=username, user_data=user_data)
+
+
+@app.route('/edit', methods=['GET', 'POST'])
+def edit():
+    if request.method == 'POST':
+        # Form submission handling
+        username = request.form.get('username')
+
+        # Check if the username is already in the session
+        if 'username' in session:
+            # Update existing user details in the database (similar to the chatgbt_workout route)
+            height = request.form.get('height')
+            weight = request.form.get('weight')
+            program = request.form.get('program')
+            calorie = request.form.get('calorie')
+            sex = request.form.get('sex')
+            freq = request.form.get('freq')
+
+            temp.db.users.update_one(
+                {'username': username},
+                {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'sex': sex, 'freq': freq}}
+            )
+            return redirect(url_for('profile', username=username))
+        else:
+            # Create a new user with the entered username
+            user_data = {
+                'username': username,
+                'height': request.form.get('height'),
+                'weight': request.form.get('weight'),
+                'program': request.form.get('program'),
+                'calorie': request.form.get('calorie'),
+                'sex': request.form.get('sex'),
+                'freq': request.form.get('freq'),
+            }
+            temp.db.users.insert_one(user_data)
+
+            # Set the username in the session
+            session['username'] = username
+
+            return redirect(url_for('profile', username=username))
+
     else:
-        return redirect(url_for('loginpage'))
+        # Display edit form
+        show_username_form = 'username' not in session
+        return render_template('edit.html', show_username_form=show_username_form)
+
+       
+    
+    
 
 @app.route('/information', methods=['POST'])
 def process_information():
@@ -99,7 +145,7 @@ def process_information():
     calories = request.form.get('calorie')
     sex = request.form.get('sex')
     freq = request.form.get('freq')
-    username = session.get('username')
+    username = request.form.get('username')
 
     return redirect(url_for('workoutgen', username = username, height=height, weight=weight, program=program, calorie=calories, sex = sex, freq=freq))
 
@@ -131,7 +177,6 @@ def workoutgen():
     generated_response = response['choices'][0]['text']
     username = session.get('username')
     return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
-
 
 
 
