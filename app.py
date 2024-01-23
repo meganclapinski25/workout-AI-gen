@@ -3,6 +3,7 @@ from flask import Flask, request, render_template, redirect, url_for, session
 from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
+from bson.objectid import ObjectId
 import certifi
 import openai
 import bcrypt
@@ -79,86 +80,29 @@ def register():
         return redirect(url_for('profile', username=username))
 
     
-@app.route('/users/<username>')
-def profile(username):
+@app.route('/users/<user_id>')
+def profile(user_id):
     #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
-        username = session['username']
-        user_data = temp.db.users.find_one({'username': username})
-        return render_template('users.html', username=username, user_data=user_data)
+        
+        user_data = temp.db.users.find_one( {'_id': ObjectId(user_id)})
+        context = {
+            'user': user_data
+        }
+        return render_template('users.html', **context)
 
 
-@app.route('/edit', methods=['GET', 'POST'])
-def edit():
-    if request.method == 'POST':
-        # Form submission handling
-        username = request.form.get('username')
-
-        # Check if the username is already in the session
-        if 'username' in session:
-            # Update existing user details in the database (similar to the chatgbt_workout route)
-            height = request.form.get('height')
-            weight = request.form.get('weight')
-            program = request.form.get('program')
-            calorie = request.form.get('calorie')
-            sex = request.form.get('sex')
-            freq = request.form.get('freq')
-
-            temp.db.users.update_one(
-                {'username': username},
-                {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'sex': sex, 'freq': freq}}
-            )
-            return redirect(url_for('profile', username=username))
-        else:
-            # Create a new user with the entered username
-            user_data = {
-                'username': username,
-                'height': request.form.get('height'),
-                'weight': request.form.get('weight'),
-                'program': request.form.get('program'),
-                'calorie': request.form.get('calorie'),
-                'sex': request.form.get('sex'),
-                'freq': request.form.get('freq'),
-            }
-            temp.db.users.insert_one(user_data)
-
-            # Set the username in the session
-            session['username'] = username
-
-            return redirect(url_for('profile', username=username))
-
-    else:
-        # Display edit form
-        show_username_form = 'username' not in session
-        return render_template('edit.html', show_username_form=show_username_form)
-
-       
-    
     
 
-@app.route('/information', methods=['POST'])
-def process_information():
-    #Used for before chatgbt api was implemented, just was proof that I could see the form inputs in html
-    height = request.form.get('height')
-    weight = request.form.get('weight')
-    program = request.form.get('program')
-    
-    calories = request.form.get('calorie')
-    sex = request.form.get('sex')
-    freq = request.form.get('freq')
-    username = request.form.get('username')
-
-    return redirect(url_for('workoutgen', username = username, height=height, weight=weight, program=program, calorie=calories, sex = sex, freq=freq))
-
-@app.route('/chatgbt_workout', methods=['GET'])
+@app.route('/chatgbt_workout', methods=['GET', 'POST'])
 def workoutgen():
     #Take in the users inputs/information and takes it through the prompt, of the chatgbt api
     
-    height = request.args.get('height')
-    weight = request.args.get('weight')
-    program = request.args.get('program')
-    calorie = request.args.get('calorie')
-    sex = request.args.get('sex')
-    freq = request.args.get('freq')
+    height = request.form.get('height')
+    weight = request.form.get('weight')
+    program = request.form.get('program')
+    calorie = request.form.get('calorie')
+    sex = request.form.get('sex')
+    freq = request.form.get('freq')
     username = session.get('username')
     #populates the database with the new information
     temp.db.users.update_one(
@@ -166,7 +110,7 @@ def workoutgen():
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
     
-    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} days a week. Organizw the workout by days example day 1,day 2 etc"
+    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Only use a line break when going to the next day"
     response = openai.Completion.create(
         model="gpt-3.5-turbo-instruct",
         prompt = prompt,
@@ -178,7 +122,39 @@ def workoutgen():
     username = session.get('username')
     return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
 
+@app.route('/edit/<user_id>', methods=['GET', 'POST'])
+def edit(user_id):
+    """Shows the edit page and accepts a POST request with edited data."""
+    if request.method == 'POST':
+        # TODO: Make an `update_one` database call to update the plant with the
+        # given id. Make sure to put the updated fields in the `$set` object.
+        updated_data = {
+           'height' : request.form.get('height'),
+            'weight' : request.form.get('weight'),
+            'program' : request.form.get('program'),
+            'calories' : request.form.get('calorie'),
+            'sex' : request.form.get('sex'),
+            'freq' : request.form.get('freq'),
+            # Add more fields as needed
+        }
+        temp.db.update_one(
+            {'_id': ObjectId(user_id)},  
+            {'$set': updated_data}
+        )
 
+        return redirect(url_for('detail', plant_id=plant_id))
+    else:
+        # TODO: Make a `find_one` database call to get the plant object with the
+        # passed-in _id.
+        plant_to_show = temp.db.find_one({'_id': ObjectId(plant_id)})
+
+        context = {
+            'plant': plant_to_show
+        }
+
+        return render_template('edit.html', **context)
+
+       
 
 if __name__ == '__main__':
     app.run(debug=True)

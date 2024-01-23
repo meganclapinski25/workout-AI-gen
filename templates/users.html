@@ -18,10 +18,7 @@
                     <ul class="nav nav-pills">
                         <li class="nav-item">
                         <a class="nav-link active"  href="{{url_for('register')}}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('workoutpage')}}">Create A Workout</a>
-                        </li>
+                        
                         <li class="nav-item">
                         <a class="nav-link" href="#">FAQ</a>
                         </li>
@@ -36,7 +33,7 @@
             <div class="card rounded-7" style="width: 18rem;">
                 
                 <div class="card-body " style="color: black; ">
-                  <p class="card-text" >Username: {{username}}</p>
+                  
                   <p class="card-text" >Sex: {{sex}}</p>
                   <p class="card-text" >Height: {{height}}</p>
                   <p class="card-text" >Weight: {{weight}}</p>
@@ -44,7 +41,7 @@
                   <p class="card-text" >Program: {{program}}</p>
 
                 </div>
-                {%if username %}
+                
                     <div class="card-footer d-flex justify-content-between">
                         <button type="button" class="btn btn-primary">
                             Edit
@@ -52,83 +49,29 @@
                         <button type="button" class="btn btn-primary">
                             Delete
                         </button>
-                    </div>
-                {%else%}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Input Rest of Information
-                    </button>
-                {%endif%}
+                    </div> 
             </div>
             
-            {% if username %}
+            
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                <div class="modal-dialog" role="document" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel" style="color: black;">More Information</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color: black;">To input the rest of the information needed to create your own personal program, click the button below. If not now, familiarize yourself with the rest of the website and click create a workout above!!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a class="btn btn-primary" href="/workoutpage">Create a Workout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-              <div class="modal-dialog" role="document" >
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Create a Username</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-                          <p style="color: black;">To complete your profile please enter a username by clicking the button below!</p>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <a class="btn btn-primary" href="{{ url_for('edit')}}">Create a Username</a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        {% endif %}
+           
         
               <div class="container-fluid">
                 
                     
                 
                 <div class="container mt-5">
-                    
-                  {% if username %}  
                     {% if generated_response  %}
                         <h1>Your Workout Result:</h1>
                         <div class="row">
-                            
-
-                                <div class="card">
-                                    <div class="card-body" style="color: black;">
-                                        {{ generated_response }}
-                                    </div>
+                            <div class="card">
+                                <div class="card-body" style="color: black;">
+                                    {{ generated_response }}
                                 </div>
+                            </div>
                         </div>
-                    {%else%}
-                        <h2>To create a workout taliored to you, direct yourself to create a workout page!!</h2>
-                    {%endif%}
-                  {%else%}
-                  <h2>To create a workout taliored to you, direct yourself to the "Input" Button on your card!!</h2>
-                  {%endif%}
+                    {% endif %}
                 </div>
-                
               
   
         
