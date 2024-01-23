@@ -12,6 +12,6 @@ This web application, powered by Flask and ChatGPT API, allows users to create p
 ## Technologies Used
 - **Flask:** Python web framework for building the server-side application.
 - **ChatGPT API:** OpenAI's ChatGPT for natural language processing and conversation.
-- **HTML/CSS/Javasccript:** Frontend components for user interaction.
+- **HTML/CSS/Javascript:** Frontend components for user interaction.
 
 
