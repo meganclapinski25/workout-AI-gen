@@ -1,0 +1,7 @@
+Flask
+flask_pymongo
+python-dotenv
+pymongo
+certifi
+openai
+bcrypt

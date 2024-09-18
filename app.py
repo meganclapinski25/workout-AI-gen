@@ -12,14 +12,14 @@ import bcrypt
 
 
 # get this path from the panel on mongodb.com
-#meganclapinski
-#pjqBwnbY83tONHQ6
+#meganclapins
+#FhuG68WvK8pEXYL4
 
 
 
 
 app = Flask(__name__)
-app.secret_key = '2525'
+
 load_dotenv()
 ca = certifi.where()
 # get this path from the panel on mongodb.com
