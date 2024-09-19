@@ -5,21 +5,23 @@ from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from bson.objectid import ObjectId
 import certifi
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.environ.get('API_KEY'))
 import bcrypt
 
 
 
 
 # get this path from the panel on mongodb.com
-#meganclapinski
-#pjqBwnbY83tONHQ6
+#meganclapins
+#FhuG68WvK8pEXYL4
 
 
 
 
 app = Flask(__name__)
-app.secret_key = '2525'
+
 load_dotenv()
 ca = certifi.where()
 # get this path from the panel on mongodb.com
@@ -41,7 +43,6 @@ except Exception as e:
 
 
 
-openai.api_key = os.environ.get('API_KEY')
 
 
 
@@ -51,7 +52,7 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 
 @app.route('/')
 def homepage():
-    
+
     return render_template('index.html')
 
 @app.route('/workoutpage')
@@ -75,15 +76,15 @@ def register():
         user_data = {'username': username}
         temp.db.users.insert_one(user_data)
         session['username'] = username
-        
-        
+
+
         return redirect(url_for('profile', username=username))
 
-    
+
 @app.route('/users/<user_id>')
 def profile(user_id):
     #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
-        
+
         user_data = temp.db.users.find_one( {'_id': ObjectId(user_id)})
         context = {
             'user': user_data
@@ -91,12 +92,12 @@ def profile(user_id):
         return render_template('users.html', **context)
 
 
-    
+
 
 @app.route('/chatgbt_workout', methods=['GET', 'POST'])
 def workoutgen():
     #Take in the users inputs/information and takes it through the prompt, of the chatgbt api
-    
+
     height = request.form.get('height')
     weight = request.form.get('weight')
     program = request.form.get('program')
@@ -109,16 +110,15 @@ def workoutgen():
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
-    
-    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Only use a line break when going to the next day"
-    response = openai.Completion.create(
-        model="gpt-3.5-turbo-instruct",
-        prompt = prompt,
-        max_tokens=400,
-        
-    )
 
-    generated_response = response['choices'][0]['text']
+    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Only use a line break when going to the next day"
+    response = client.completions.create(model="gpt-3.5-turbo-instruct",
+     messages=[
+            {"role": "user", "content": prompt}
+        ],
+    max_tokens=400)
+
+    generated_response = response.choices[0].message.content
     username = session.get('username')
     return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
 
@@ -154,7 +154,7 @@ def edit(user_id):
 
         return render_template('edit.html', **context)
 
-       
+
 
 if __name__ == '__main__':
     app.run(debug=True)
