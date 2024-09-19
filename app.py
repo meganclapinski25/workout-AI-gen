@@ -5,13 +5,18 @@ from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from bson.objectid import ObjectId
 import certifi
+import openai
 from openai import OpenAI
-
-client = OpenAI(api_key=os.environ.get('API_KEY'))
 import bcrypt
 
+load_dotenv()
 
 
+
+
+client1 = OpenAI(
+  api_key=os.environ['OPENAI_API_KEY'],  # this is also the default, it can be omitted
+)
 
 # get this path from the panel on mongodb.com
 #meganclapins
@@ -22,7 +27,7 @@ import bcrypt
 
 app = Flask(__name__)
 
-load_dotenv()
+
 ca = certifi.where()
 # get this path from the panel on mongodb.com
 uri = "mongodb+srv://meganclapinski:pjqBwnbY83tONHQ6@firstdata.2divsl3.mongodb.net/test?retryWrites=true&w=majority"
@@ -43,12 +48,6 @@ except Exception as e:
 
 
 
-
-
-
-
-API_KEY = os.getenv('API_KEY')
-API_URL = 'https://api.openai.com/v1/chat/completions'
 
 @app.route('/')
 def homepage():
@@ -111,15 +110,16 @@ def workoutgen():
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
 
+
+
+    client1 = OpenAI()
     prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Only use a line break when going to the next day"
-    response = client.completions.create(model="gpt-3.5-turbo-instruct",
-     messages=[
-            {"role": "user", "content": prompt}
-        ],
+    response = client1.completions.create(
+     model="gpt-3.5-turbo-instruct",
+     prompt = prompt,
     max_tokens=400)
 
-    generated_response = response.choices[0].message.content
-    username = session.get('username')
+    generated_response = response.choices[0].text.strip()
     return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
 
 @app.route('/edit/<user_id>', methods=['GET', 'POST'])
@@ -157,4 +157,4 @@ def edit(user_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
