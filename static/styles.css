@@ -1,0 +1,29 @@
+/* Custom styles for the form */
+.form-group {
+    max-width: 300px; 
+    margin: 0 auto;  /* Center the inputs */
+}
+
+.form-group label {
+    color: whitesmoke; 
+}
+
+button[type="submit"] {
+    max-width: 150px; /* Smaller submit button */
+}
+
+/* Adjusting header and paragraph */
+h1.cover-heading {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+p.lead {
+    font-size: 1.1rem;
+}
+
+body {
+    background-color: #343a40;  
+    color: whitesmoke;          
+}
+

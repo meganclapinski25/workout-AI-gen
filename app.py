@@ -109,6 +109,8 @@ def workoutgen():
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
+    
+    
 
 
 
@@ -119,7 +121,8 @@ def workoutgen():
      prompt = prompt,
     max_tokens=400)
 
-    generated_response = response.choices[0].text.strip()
+    workouts = generated_response.split("Day")
+    workouts = [w.strip() for w in workouts if w]
     return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
 
 @app.route('/edit/<user_id>', methods=['GET', 'POST'])

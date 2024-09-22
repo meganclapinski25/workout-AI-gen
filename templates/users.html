@@ -61,16 +61,16 @@
                     
                 
                 <div class="container mt-5">
-                    {% if generated_response  %}
-                        <h1>Your Workout Result:</h1>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-body" style="color: black;">
-                                    {{ generated_response }}
-                                </div>
+                    {% for day, workout in generated_response.items() %}
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <strong>{{ day }}'s Workout</strong>
+                            </div>
+                            <div class="card-body" style="color: black;">
+                                {{ workout }}
                             </div>
                         </div>
-                    {% endif %}
+                    {% endfor %}
                 </div>
               
   
