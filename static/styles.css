@@ -40,3 +40,6 @@ body {
 .card-body {
     font-size: 1rem;
 }
+img{
+    justify-content: center;
+}

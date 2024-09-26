@@ -8,6 +8,7 @@ import certifi
 import openai
 from openai import OpenAI
 import bcrypt
+import re 
 
 load_dotenv()
 
@@ -115,16 +116,15 @@ def workoutgen():
 
 
     client1 = OpenAI()
-    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Only use a line break when going to the next day"
+    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Seperate each workout by day"
     response = client1.completions.create(
      model="gpt-3.5-turbo-instruct",
      prompt = prompt,
-    max_tokens=400)
-
-    workouts = generated_response.split("Day")
-    workouts = [w.strip() for w in workouts if w]
-    return render_template('users.html', username = username, height=height, weight=weight, program=program, calorie=calorie, sex = sex, freq = freq, prompt=prompt, generated_response=generated_response)
-
+    max_tokens=4000)
+    
+    generated_response = response.choices[0].text.strip() 
+    workouts = re.split(r'(?=Day \d+:)', generated_response.strip())
+    return render_template('users.html', username=username, height=height, weight=weight, program=program, calorie=calorie, sex=sex, freq=freq, prompt=prompt, generated_response=generated_response, workouts=workouts)
 @app.route('/edit/<user_id>', methods=['GET', 'POST'])
 def edit(user_id):
     """Shows the edit page and accepts a POST request with edited data."""
@@ -156,6 +156,8 @@ def edit(user_id):
         }
 
         return render_template('edit.html', **context)
+    print("Generated Response:", generated_response)  # Check the raw response
+    print("Workouts List:", workouts)  # See what workouts are extracted
 
 
 

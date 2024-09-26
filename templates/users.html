@@ -30,14 +30,15 @@
         </header>
         
             <h1 class="text-center"> Welcome to your profile page</h1>
+            <div class="d-flex justify-content-center">
             <div class="card rounded-7" style="width: 18rem;">
                 
-                <div class="card-body " style="color: black; ">
+                <div class="card-body " style="color: black; justify-content-center ">
                   
                   <p class="card-text" >Sex: {{sex}}</p>
                   <p class="card-text" >Height: {{height}}</p>
                   <p class="card-text" >Weight: {{weight}}</p>
-                  <p class="card-text" >Frequency: {{freq}}</p>
+                  <p class="card-text" >Frequency of Workouts: {{freq}} Days a Week</p>
                   <p class="card-text" >Program: {{program}}</p>
 
                 </div>
@@ -52,7 +53,7 @@
                     </div> 
             </div>
             
-            
+        </div>
             <!-- Modal -->
            
         
@@ -61,21 +62,27 @@
                     
                 
                 <div class="container mt-5">
-                    {% for day, workout in generated_response.items() %}
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                <strong>{{ day }}'s Workout</strong>
+                    {% if workouts %}
+                        {% for workout in workouts %}
+                            <div class="card mt-3">
+                                <div class="card-body" style="color: black;">
+                                    {% set parts = workout.split(':') %}
+                                    <strong>{{ parts[0] }}</strong> <!-- Display the day -->
+                                    {% if parts|length > 1 %}
+                                        <p>{{ parts[1].strip() }}</p> <!-- Display the workout details if they exist -->
+                                    {% else %}
+                                        <p>No workout details available.</p> <!-- Handle case where no details are present -->
+                                    {% endif %}
+                                </div>
                             </div>
-                            <div class="card-body" style="color: black;">
-                                {{ workout }}
-                            </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No workouts generated.</p>
+                    {% endif %}
                 </div>
-              
-  
-        
-      </div>
+                
+                
+                
 
         
     </div>
