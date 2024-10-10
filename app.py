@@ -31,11 +31,11 @@ app = Flask(__name__)
 
 ca = certifi.where()
 # get this path from the panel on mongodb.com
-mongo_uri = os.environ.get('MONGO_URI')
+mongo_uri = os.environ.get('MONGO_URI', 'mongodb://muser:mpass@db:27017/users')
 # Create a new client and connect to the server
-client = MongoClient(mongo_uri , tlsCAFile=ca)
+client = MongoClient(mongo_uri)
 # Get the database named plantsdatabase
-temp = client.usersdatabase
+temp = client.users
 
 # Send a ping to confirm a successful connection
 try:
@@ -101,7 +101,7 @@ def workoutgen():
     freq = request.form.get('freq')
     username = session.get('username')
     #populates the database with the new information
-    temp.db.users.update_one(
+    db.users.update_one(
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
@@ -135,7 +135,7 @@ def edit(user_id):
             'freq' : request.form.get('freq'),
             # Add more fields as needed
         }
-        temp.db.update_one(
+        db.users.update_one(
             {'_id': ObjectId(user_id)},  
             {'$set': updated_data}
         )
@@ -144,7 +144,7 @@ def edit(user_id):
     else:
         # TODO: Make a `find_one` database call to get the plant object with the
         # passed-in _id.
-        plant_to_show = temp.db.find_one({'_id': ObjectId(plant_id)})
+        plant_to_show = db.users.find_one({'_id': ObjectId(plant_id)})
 
         context = {
             'plant': plant_to_show
