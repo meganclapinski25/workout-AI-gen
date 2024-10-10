@@ -31,10 +31,9 @@ app = Flask(__name__)
 
 ca = certifi.where()
 # get this path from the panel on mongodb.com
-uri = "mongodb+srv://meganclapinski:SnvtNMZwF6UcCYz5@cluster420.izhpy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster420"
-
+mongo_uri = os.environ.get('MONGO_URI')
 # Create a new client and connect to the server
-client = MongoClient(uri, tlsCAFile=ca)
+client = MongoClient(mongo_uri , tlsCAFile=ca)
 # Get the database named plantsdatabase
 temp = client.usersdatabase
 
@@ -45,14 +44,6 @@ try:
 
 except Exception as e:
     print(e)
-
-
-mongo_uri = os.environ.get('MONGO_URI')
-client = MongoClient(mongo_uri)
-db = client.users
-
-
-
 
 @app.route('/')
 def homepage():
