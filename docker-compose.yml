@@ -1,18 +1,17 @@
-
 services:
   db:
     image: mongo:latest
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_DATABASE: users
+      - MONGO_INITDB_DATABASE=users  # Optionally set a database name
   web:
     build: .
+    command: python -u app.py
     ports:
       - "8000:5005"
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - MONGO_URI=${MONGO_URI}
     depends_on:
       - db
-
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MONGODB_URI=mongodb://db:27017/users  # Use the Docker service name for connection

@@ -31,7 +31,7 @@ app = Flask(__name__)
 
 
 # get this path from the panel on mongodb.com
-mongo_uri = os.environ.get('MONGODB_URI')
+mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://db:27017/users')
 
 # Create a new client and connect to the server
 client = MongoClient(mongo_uri)
