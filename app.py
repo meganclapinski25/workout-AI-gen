@@ -101,7 +101,7 @@ def workoutgen():
     freq = request.form.get('freq')
     username = session.get('username')
     #populates the database with the new information
-    db.users.update_one(
+    temp.users.update_one(
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
@@ -135,7 +135,7 @@ def edit(user_id):
             'freq' : request.form.get('freq'),
             # Add more fields as needed
         }
-        db.users.update_one(
+        temp.users.update_one(
             {'_id': ObjectId(user_id)},  
             {'$set': updated_data}
         )
@@ -144,7 +144,7 @@ def edit(user_id):
     else:
         # TODO: Make a `find_one` database call to get the plant object with the
         # passed-in _id.
-        plant_to_show = db.users.find_one({'_id': ObjectId(plant_id)})
+        plant_to_show = temp.users.find_one({'_id': ObjectId(plant_id)})
 
         context = {
             'plant': plant_to_show
