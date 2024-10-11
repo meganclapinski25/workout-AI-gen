@@ -36,7 +36,7 @@ mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://mongo:27017/users')
 
 # Create a new client and connect to the server
 client = MongoClient(mongo_uri)
-temp = client['users']  # Your database name
+temp = client['user_db'] 
 
 # Test MongoDB connection
 try:
@@ -168,4 +168,4 @@ def test_connection():
 
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True, port = 5000) 
