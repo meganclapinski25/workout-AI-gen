@@ -21,7 +21,7 @@ client1 = OpenAI(
 
 # get this path from the panel on mongodb.com
 #meganclapinski
-#SnvtNMZwF6UcCYz5
+#Ohd3cAP1Xv1qa6Vn
 
 
 
@@ -31,11 +31,12 @@ app = Flask(__name__)
 
 
 # get this path from the panel on mongodb.com
-mongo_uri = os.environ.get('MONGO_URI', 'mongodb://muser:mpass@db:27017/users')
+mongo_uri = os.environ.get('MONGODB_URI')
+
 # Create a new client and connect to the server
-client = MongoClient(mongo_uri, tlsCAFile=certifi.where())
+client = MongoClient(mongo_uri)
 # Get the database named plantsdatabase
-temp = client.users
+temp = client.get_database('users')
 
 # Send a ping to confirm a successful connection
 try:
@@ -69,7 +70,7 @@ def register():
         username = request.form.get('username')
 
         user_data = {'username': username}
-        temp.db.users.insert_one(user_data)
+        temp.users.insert_one(user_data)
         session['username'] = username
 
 
@@ -80,7 +81,7 @@ def register():
 def profile(user_id):
     #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
 
-        user_data = temp.db.users.find_one( {'_id': ObjectId(user_id)})
+        user_data = temp.users.find_one({'_id': ObjectId(user_id)})  # Access users collection
         context = {
             'user': user_data
         }
@@ -105,7 +106,6 @@ def workoutgen():
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
-    
     
 
 
@@ -154,6 +154,18 @@ def edit(user_id):
     print("Generated Response:", generated_response)  # Check the raw response
     print("Workouts List:", workouts)  # See what workouts are extracted
 
+@app.route('/test_connection')
+def test_connection():
+    try:
+        # Try to find one user
+        user = temp.users.find_one()
+        
+        if user:
+            return f"Connected to users database. Found user: {user['username']}"
+        else:
+            return "Connected to users database, but no users found."
+    except Exception as e:
+        return f"Failed to connect to users database: {e}"
 
 
 if __name__ == '__main__':
