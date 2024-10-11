@@ -29,11 +29,11 @@ client1 = OpenAI(
 app = Flask(__name__)
 
 
-ca = certifi.where()
+
 # get this path from the panel on mongodb.com
 mongo_uri = os.environ.get('MONGO_URI', 'mongodb://muser:mpass@db:27017/users')
 # Create a new client and connect to the server
-client = MongoClient(mongo_uri)
+client = MongoClient(mongo_uri, tlsCAFile=certifi.where())
 # Get the database named plantsdatabase
 temp = client.users
 
