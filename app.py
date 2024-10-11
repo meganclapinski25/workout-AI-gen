@@ -36,7 +36,7 @@ mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://mongo:27017/users')
 
 # Create a new client and connect to the server
 client = MongoClient(mongo_uri)
-temp = client['user_db'] 
+db = client['user_db'] 
 
 # Test MongoDB connection
 try:
@@ -101,7 +101,7 @@ def workoutgen():
     freq = request.form.get('freq')
     username = session.get('username')
     #populates the database with the new information
-    temp.users.update_one(
+    db.users.insert_one(
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
@@ -168,4 +168,4 @@ def test_connection():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port = 5000) 
+    app.run(debug=True) 

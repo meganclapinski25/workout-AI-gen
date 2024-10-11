@@ -17,9 +17,9 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGODB_URI=mongodb://db:27017/users  # Change 'mongo' to 'db' (service name)
+      - MONGODB_URI=mongodb://db:27017/users 
     depends_on:
-      - db  # Make sure 'db' matches your MongoDB service
+      - db  
 
 volumes:
   mongo-data:
