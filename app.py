@@ -27,24 +27,23 @@ client1 = OpenAI(
 
 
 app = Flask(__name__)
-
+ca = certifi.where()
 
 
 # get this path from the panel on mongodb.com
-mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://db:27017/users')
+# MongoDB connection (using Docker Mongo service)
+mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://mongo:27017/users')
 
 # Create a new client and connect to the server
 client = MongoClient(mongo_uri)
-# Get the database named plantsdatabase
-temp = client.get_database('users')
+db = client['users']  # Your database name
 
-# Send a ping to confirm a successful connection
+# Test MongoDB connection
 try:
     client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-
+    print("Pinged your MongoDB deployment. Successfully connected!")
 except Exception as e:
-    print(e)
+    print(f"Failed to connect to MongoDB: {e}")
 
 @app.route('/')
 def homepage():

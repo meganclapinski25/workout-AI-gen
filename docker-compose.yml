@@ -1,17 +1,25 @@
+version: '3'
 services:
-  db:
+  mongo:
     image: mongo:latest
+    container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
     environment:
-      - MONGO_INITDB_DATABASE=users  # Optionally set a database name
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
   web:
     build: .
-    command: python -u app.py
+    container_name: flask-app
+    command: flask run --host=0.0.0.0
     ports:
-      - "8000:5005"
-    depends_on:
-      - db
+      - "5000:5000"
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - MONGODB_URI=mongodb://db:27017/users  # Use the Docker service name for connection
+      - MONGODB_URI=mongodb://mongo:27017/users
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
