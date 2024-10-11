@@ -13,7 +13,7 @@ services:
   web:
     build: .
     container_name: flask-app
-    command: flask run 
+    command: flask run --0.0.0.0
     ports:
       - "5000:5000"
     environment:
