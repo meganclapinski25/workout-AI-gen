@@ -32,7 +32,7 @@ ca = certifi.where()
 
 # get this path from the panel on mongodb.com
 # MongoDB connection (using Docker Mongo service)
-mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://mongo:27017/users')
+mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://db:27017/users')
 
 # Create a new client and connect to the server
 client = MongoClient(mongo_uri)
