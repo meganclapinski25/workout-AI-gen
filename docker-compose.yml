@@ -1,26 +1,25 @@
-
 services:
   db:
-  image: mongo:latest
-  hostname: test_mongodb
-  environment:
-    - MONGO_INITDB_DATABASE=user_db
-    - MONGO_INITDB_ROOT_USERNAME=root
-    - MONGO_INITDB_ROOT_PASSWORD=pass
-  volumes:
-    - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
-  ports:
-    - 27017:27017
+    image: mongo:latest
+    hostname: test_mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=user_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    ports:
+      - "27017:27017"
+  
   web:
     build: .
     container_name: flask-app
-    
     ports:
       - "5000:5000"
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/users
+      - MONGODB_URI=mongodb://db:27017/users  # Change 'mongo' to 'db' (service name)
     depends_on:
-      - mongo
+      - db  # Make sure 'db' matches your MongoDB service
 
 volumes:
   mongo-data:
