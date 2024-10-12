@@ -32,7 +32,7 @@ ca = certifi.where()
 
 # get this path from the panel on mongodb.com
 # MongoDB connection (using Docker Mongo service)
-mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://db:27017/users')
+mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://root:pass@mongo:27017/user_db')
 
 # Create a new client and connect to the server
 client = MongoClient(mongo_uri)
@@ -69,7 +69,7 @@ def register():
         username = request.form.get('username')
 
         user_data = {'username': username}
-        temp.users.insert_one(user_data)
+        db.users.insert_one(user_data)
         session['username'] = username
 
 
@@ -80,7 +80,7 @@ def register():
 def profile(user_id):
     #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
 
-        user_data = temp.users.find_one({'_id': ObjectId(user_id)})  # Access users collection
+        user_data = db.users.find_one({'_id': ObjectId(user_id)})  # Access users collection
         context = {
             'user': user_data
         }
@@ -101,7 +101,7 @@ def workoutgen():
     freq = request.form.get('freq')
     username = session.get('username')
     #populates the database with the new information
-    db.users.insert_one(
+    db.users.update_one(
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
@@ -134,7 +134,7 @@ def edit(user_id):
             'freq' : request.form.get('freq'),
             # Add more fields as needed
         }
-        temp.users.update_one(
+        db.users.update_one(
             {'_id': ObjectId(user_id)},  
             {'$set': updated_data}
         )
@@ -143,7 +143,7 @@ def edit(user_id):
     else:
         # TODO: Make a `find_one` database call to get the plant object with the
         # passed-in _id.
-        plant_to_show = temp.users.find_one({'_id': ObjectId(plant_id)})
+        plant_to_show = db.users.find_one({'_id': ObjectId(plant_id)})
 
         context = {
             'plant': plant_to_show
@@ -157,7 +157,7 @@ def edit(user_id):
 def test_connection():
     try:
         # Try to find one user
-        user = temp.users.find_one()
+        user = db.users.find_one()
         
         if user:
             return f"Connected to users database. Found user: {user['username']}"
