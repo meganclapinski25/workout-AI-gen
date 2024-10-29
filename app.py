@@ -19,31 +19,34 @@ client1 = OpenAI(
   api_key=os.environ['OPENAI_API_KEY'],  # this is also the default, it can be omitted
 )
 
-# get this path from the panel on mongodb.com
-#meganclapinski
-#Ohd3cAP1Xv1qa6Vn
+
 
 
 
 
 app = Flask(__name__)
+
+
 ca = certifi.where()
-
-
 # get this path from the panel on mongodb.com
-# MongoDB connection (using Docker Mongo service)
-mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://root:pass@mongo:27017/user_db')
+uri = "mongodb+srv://meganclapinski:Mc122803$100@cluster420.izhpy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster420"
 
 # Create a new client and connect to the server
-client = MongoClient(mongo_uri)
-db = client['user_db'] 
+client = MongoClient(uri, tlsCAFile=certifi.where())
+# Get the database named plantsdatabase
+temp = client.usersdatabase
 
-# Test MongoDB connection
+# Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
-    print("Pinged your MongoDB deployment. Successfully connected!")
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+
 except Exception as e:
-    print(f"Failed to connect to MongoDB: {e}")
+    print(e)
+
+
+
+
 
 @app.route('/')
 def homepage():
@@ -69,7 +72,7 @@ def register():
         username = request.form.get('username')
 
         user_data = {'username': username}
-        db.users.insert_one(user_data)
+        temp.db.users.insert_one(user_data)
         session['username'] = username
 
 
@@ -80,7 +83,7 @@ def register():
 def profile(user_id):
     #Keeps username throuhg whole session. Will use this for edit and delete of profiles 
 
-        user_data = db.users.find_one({'_id': ObjectId(user_id)})  # Access users collection
+        user_data = temp.db.users.find_one( {'_id': ObjectId(user_id)})
         context = {
             'user': user_data
         }
@@ -101,10 +104,11 @@ def workoutgen():
     freq = request.form.get('freq')
     username = session.get('username')
     #populates the database with the new information
-    db.users.update_one(
+    temp.db.users.update_one(
         {'username': username},
         {'$set': {'height': height, 'weight': weight, 'program': program, 'calorie': calorie, 'freq': freq, 'sex':sex}}
     )
+    
     
 
 
@@ -114,11 +118,15 @@ def workoutgen():
     response = client1.completions.create(
      model="gpt-3.5-turbo-instruct",
      prompt = prompt,
-    max_tokens=4000)
+    max_tokens= 4000)
     
     generated_response = response.choices[0].text.strip() 
     workouts = re.split(r'(?=Day \d+:)', generated_response.strip())
+    print(f"Generated Response: {generated_response}")  # Debugging the generated response
+    print(f"Workouts: {workouts}")
     return render_template('users.html', username=username, height=height, weight=weight, program=program, calorie=calorie, sex=sex, freq=freq, prompt=prompt, generated_response=generated_response, workouts=workouts)
+
+
 @app.route('/edit/<user_id>', methods=['GET', 'POST'])
 def edit(user_id):
     """Shows the edit page and accepts a POST request with edited data."""
@@ -134,7 +142,7 @@ def edit(user_id):
             'freq' : request.form.get('freq'),
             # Add more fields as needed
         }
-        db.users.update_one(
+        temp.db.update_one(
             {'_id': ObjectId(user_id)},  
             {'$set': updated_data}
         )
@@ -143,28 +151,16 @@ def edit(user_id):
     else:
         # TODO: Make a `find_one` database call to get the plant object with the
         # passed-in _id.
-        plant_to_show = db.users.find_one({'_id': ObjectId(plant_id)})
+        plant_to_show = temp.db.find_one({'_id': ObjectId(plant_id)})
 
         context = {
             'plant': plant_to_show
         }
 
         return render_template('edit.html', **context)
-    print("Generated Response:", generated_response)  # Check the raw response
-    print("Workouts List:", workouts)  # See what workouts are extracted
+    # print("Generated Response:", generated_response)  # Check the raw response
+    # print("Workouts List:", workouts)  # See what workouts are extracted
 
-@app.route('/test_connection')
-def test_connection():
-    try:
-        # Try to find one user
-        user = db.users.find_one()
-        
-        if user:
-            return f"Connected to users database. Found user: {user['username']}"
-        else:
-            return "Connected to users database, but no users found."
-    except Exception as e:
-        return f"Failed to connect to users database: {e}"
 
 
 if __name__ == '__main__':
