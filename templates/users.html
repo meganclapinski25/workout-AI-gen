@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <title>FlexFlow</title>
+    <title>Workout Plan</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    
 </head>
-<body class="text-center bg-dark text-dark">
+<body class="text-center bg-dark text-light">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <a href="{{ url_for('homepage') }}" style="text-decoration: none; font-size: 24px; padding-bottom: 10%; color: whitesmoke;">Flex Flow</a>
+                <a href="{{ url_for('homepage') }}" style="text-decoration: none; font-size: 24px; color: whitesmoke;">Flex Flow</a>
                 <nav class="nav nav-masthead justify-content-center">
                     <ul class="nav nav-pills">
                         <li class="nav-item">
@@ -26,46 +27,24 @@
             </div>
         </header>
 
-        <h1 class="text-center">Welcome to your profile page</h1>
-
-        <!-- User Information Card -->
-        <div class="d-flex justify-content-center mt-3">
-            <div class="card rounded-7" style="width: 18rem;">
-                <div class="card-body">
-                    <p class="card-text">Sex: {{ sex }}</p>
-                    <p class="card-text">Height: {{ height }}</p>
-                    <p class="card-text">Weight: {{ weight }}</p>
-                    <p class="card-text">Frequency of Workouts: {{ freq }} Days a Week</p>
-                    <p class="card-text">Program: {{ program }}</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
+        <h1 class="text-center">Workout Plan</h1>
 
         <!-- Workout Program Section -->
         <div class="container-fluid mt-5">
             <div class="container">
-                {% if workouts %}
-                    {% for generated_response in workouts %}
-                        <div class="card mt-3">
+                {% if workout_cards %}
+                    {% for card in workout_cards %}
+                        <div class="card mt-3" style="color:black;">
                             <div class="card-body">
-                                {% set parts = generated_response.split(':') %}
-                                <strong>{{ parts[0] }}</strong> <!-- Display the day -->
-                                {% if parts|length > 1 %}
-                                    <p>{{ parts[1].strip() }}</p> <!-- Display the workout details if they exist -->
-                                {% else %}
-                                    <p>No workout details available.</p> <!-- Handle case where no details are present -->
-                                {% endif %}
+                                <p class="card-text" style="color: black;">{{ card | safe }}</p>
                             </div>
                         </div>
                     {% endfor %}
+                {% else %}
+                    <p>No workout details available.</p> <!-- Handle case where workouts are empty -->
                 {% endif %}
             </div>
         </div>
-
     </div>
 </body>
 </html>

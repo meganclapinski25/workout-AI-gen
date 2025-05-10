@@ -13,14 +13,14 @@
         <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
             <header class="masthead mb-auto">
               <div class="inner">
-                <h3 class="masthead-brand">Flex</h3>
+                <h3 class="masthead-brand">FlexFlow</h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                          <a class="nav-link active" href="{{url_for('homepage')}}">Home</a>
+                          <a class="nav-link " href="{{url_for('homepage')}}">Home</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{url_for('workoutpage')}}">Create A Workout</a>
+                          <a class="nav-link active" href="{{url_for('response')}}">Create A Workout</a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="#">FAQ</a>
@@ -31,56 +31,35 @@
               </div>
             </header>
         </div>
-      
-            <div class="container-fluid">
-                
-                    
-                    <div class="col-md-6 mt-4">
-                        <img src="{{ url_for('static', filename='images/homepage.png') }}" alt="Your Image" class="img-fluid">
-                    </div>
-                    <div class="container mt-5">
-                        <h1>ChatGPT Result</h1>
-                        <p><strong>Your Workout Prompt:</strong> {{ prompt }}</p>
-                        <p><strong>Generated Response:</strong></p>
-                        <div class="card">
-                            <div class="card-body" style="color: black;">
-                                {{ generated_response }}
-                            </div>
-                        </div>
-                    </div>
-                    
-                  
-      
-            <footer class="mastfoot mt-3">
-              <div class="inner">
-                <p> Footer Information..</p>
-              </div>
-            </footer>
+        <form method="POST" action="{{ url_for('workoutgen') }}">
+          <div class="mb-3">
+              <label for="height">Height</label>
+              <input type="text" class="form-control" id="height" name="height" required>
           </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        </section>
-    
-
-
-
-
-
-
-
-
-
-
-    
-
+          <div class="mb-3">
+              <label for="weight">Weight</label>
+              <input type="text" class="form-control" id="weight" name="weight" required>
+          </div>
+          <div class="mb-3">
+              <label for="program">Program</label>
+              <input type="text" class="form-control" id="program" name="program" required>
+          </div>
+          <div class="mb-3">
+              <label for="calorie">Calorie Goal</label>
+              <input type="text" class="form-control" id="calorie" name="calorie" required>
+          </div>
+          <div class="mb-3">
+              <label for="sex">Sex</label>
+              <input type="text" class="form-control" id="sex" name="sex" required>
+          </div>
+          <div class="mb-3">
+              <label for="freq">Frequency (days/week)</label>
+              <input type="number" class="form-control" id="freq" name="freq" required>
+          </div>
+          <button type="submit" class="btn btn-success">Generate Workout</button>
+      </form>
     <!-- Bootstrap JS and Popper.js scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-4S6sQ4NhdJH8gEEMGQGkTAMKsVcAJrkoHf0J9vENkSy1dQdZg4FOHJTBpZuut9iM" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.min.js" integrity="sha384-l6dUGU1Hl3qq4TfycGzRkmpSwFQ5Bi6B2sFSJ6fBqxJKgfcMzNef0l3vOiwy7Lhe" crossorigin="anonymous"></script>
-</body
+</body>
+</html>

@@ -25,9 +25,10 @@ def get_db_connection():
 def homepage():
     return render_template('index.html')
 
-@app.route('/workoutpage')
-def workoutpage():
-    return render_template('workoutex.html')
+
+@app.route('/response')
+def response():
+    return render_template('response.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -73,19 +74,48 @@ def workoutgen():
     ''', (height, weight, program, calorie, freq, sex, username))
     conn.commit()
     cur.close()
-    
-    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Separate each workout by day"
+     # Generate workout plan using ChatGPT
+    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Separate each workout by day."
     response = client1.completions.create(
         model="gpt-3.5-turbo-instruct",
         prompt=prompt,
         max_tokens=4000
     )
+
+    generated_response = response.choices[0].text.strip()
+    # # Generate workout plan using ChatGPT
+    # prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Separate each workout by day."
+    # response = client1.completions.create(
+    #     model="gpt-3.5-turbo-instruct",
+    #     prompt=prompt,
+    #     max_tokens=4000
+    # )
     
-    generated_response = response.choices[0].text.strip() 
-    workouts = re.split(r'(?=Day \d+:)', generated_response.strip())
-    print(f"Generated Response: {generated_response}")
-    print(f"Workouts: {workouts}")
-    return render_template('users.html', username=username, height=height, weight=weight, program=program, calorie=calorie, sex=sex, freq=freq, prompt=prompt, generated_response=generated_response, workouts=workouts)
+    # generated_response = response.choices[0].text.strip()
+    # print(f"Generated Response: {generated_response}")
+    
+    # Format the response into a list of workouts (splitting by days)
+    workouts = [day.strip() for day in generated_response.split("Day")[1:] if day.strip()]
+
+    workout_cards = []
+    for i, day in enumerate(workouts):
+        day_content = f'<h2><strong>Day {i + 1}:</strong></h2>' + day.replace('\n', '<br>')  # Replace newlines with <br>
+        workout_cards.append(day_content)
+    # Pass the workouts to the template
+    
+    return render_template(
+        'users.html',
+        username=username,
+        height=height,
+        weight=weight,
+        program=program,
+        calorie=calorie,
+        sex=sex,
+        freq=freq,
+        generated_response=generated_response,
+        workouts=workouts, 
+        workout_cards= workout_cards
+    )
 
 @app.route('/edit/<user_id>', methods=['GET', 'POST'])
 def edit(user_id):
@@ -118,6 +148,8 @@ def edit(user_id):
             'user': user_data
         }
         return render_template('edit.html', **context)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
