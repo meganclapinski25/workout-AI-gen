@@ -6,76 +6,125 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="/static/styles.css">
-    <title>FlexFlow</title>
+
+    <title><img</title>
 </head>
 <body class="text-center bg-dark text-light">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
-          <div class="inner">
-            <a href="{{ url_for('homepage') }}" style="text-decoration: none;font-size: 24px; padding-bottom: 10%; color: whitesmoke;">Flex Flow</a>
+          <div class="inner text-center">
+            <nav class="navbar navbar-expand-lg px-3 py-1 d-flex justify-content-between align-items-center" style="min-height: 60px;">
+              <a href="{{ url_for('homepage') }}" class="navbar-brand">
+                <img src="{{ url_for('static', filename='images/flexflow-logo.png') }}" alt="FlexFlow Logo" style="max-height: 60px;">
+              </a>
             
-            <nav class="nav nav-masthead justify-content-center pt-3">
-                <ul class="nav nav-pills">
-                   
-                    <li class="nav-item">
-                      <a class="nav-link " href="{{url_for('response')}}">Create A Workout</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">FAQ</a>
-                    </li>
-                   
-                    
-                  </ul>
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link bg-white px-4 py-2 rounded-pill me-2" href="{{ url_for('response') }}">Create A Workout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link  bg-white px-4 py-2 rounded-pill me-2" href= "#">FAQ</a>
+              </ul>
             </nav>
+            
+            
           </div>
         </header>
     </div>
+    
+    
+    <div class="scroll-container" style="scroll-snap-type: y mandatory; overflow-y: scroll; height: 100vh;">
+  
+    
+        <div class="container-fluid d-flex justify-content-end align-items-center"
+          style="height: 687px; background: url('static/images/first-slide.jpg') center center / cover no-repeat;">
+        
+          <div class="text-end text-light p-5"
+            style="width: 50%; background-color: rgba(0, 0, 0, .8); border-radius: 12px;">
+            <h1>Start Now.</h1>
+            <p>
+               FlexFlow is an AI-driven workout generator built to help athletes train smarter, anytime, without the cost of a personal trainer. It creates customized workout plans based on your goals, progress, and available equipment.
+            </p> 
+          </div>
 
-    <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6">
-            <h1>The What</h1>
-            <ul>
-              <li>🏋️‍♂️ Personalized AI workouts – Get custom workout plans based on your sport, goals, and equipment.</li>
-              <li>💰 No cost, no coach? No problem – Train effectively without needing a personal trainer.</li>
-              <li>📅 Stay on track – Daily and weekly workout suggestions to keep you consistent all summer long.</li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <h2>Image</h2>
-            <p>This is the right side content.</p>
-          </div>
         </div>
-      </div>
+       
+        <div class="container-fluid text-center fade-in my-5">
+              <h1>The What</h1>
+              <div class="row align-items-start">
+                
+                <div class="col">
+                  <h1>🏋️</h1>
+                  <p>Personalized AI workouts – Get custom workout plans based on your sport, goals, and equipment.</p>
+                </div>
+                <div class="col">
+                  <h1> 💰 </h1>
+                  <p> No cost, no coach? No problem – Train effectively without needing a personal trainer.</p>
+                </div>
+                <div class="col">
+                  <h1>🗓️</h1>
+                  <p>Stay on track – Daily and weekly workout suggestions to keep you consistent all summer long.</p>
+                </div>
+              </div>
+        </div>
+        
 
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6">
-            <h1>The Why </h1>
-            <p>This is the left side content.</p>
-          </div>
-      </div>
-      
-      <div class="container-fluid">
-        <div class="row">
-            <h1>The How</h1>
-          <div class="col-md-6">
-            <h1>Prcoess 1</h1>
-            <p>This is the left side content.</p>
-          </div>
-          <div class="col-md-6">
-            <h2>Process 2</h2>
-            <p>This is the right side content.</p>
-          </div>
-          <div class="col-md-6">
-            <h2>Process 3</h2>
-            <p>This is the right side content.</p>
-          </div>
+        <div class="container-fluid fade-in my-5" style="padding: 0 10%;">
+                <div class="row">
+                  <div class="col-12">
+                    <h1>The Why </h1>
+                    <p> As an athlete, I know how hard it can be to stay in top shape without the right guidance. Personal trainers and elite programs aren’t always accessible — due to cost, location, or time. I created FlexFlow to change that: an AI-powered workout generator that delivers personalized training plans for athletes of all levels, without the price tag. No barriers. Just smarter training. </p>                  </div>
+                  </div>
+                </div>
+                <div class = "row">
+                  <div class = "col-12">
+                    <img src="static/images/workout1.webp" alt="Workout Image">
+                  </div>
+                </div>
         </div>
-      </div>
-            
+        <div class="container-fluid fade-in">
+              <div class="row">
+                  <h1>The How</h1>
+                <div class="col-md-6">
+                  <h1>Prcoess 1</h1>
+                  <p>This is the left side content.</p>
+                </div>
+                <div class="col-md-6">
+                  <h2>Process 2</h2>
+                  <p>This is the right side content.</p>
+                </div>
+                <div class="col-md-6">
+                  <h2>Process 3</h2>
+                  <p>This is the right side content.</p>
+                </div>
+              </div>
+        </div>
+      </div>   
     
 </body>
+<script>
+  const faders = document.querySelectorAll('.fade-in');
 
+  const appearOnScroll = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // fade only once
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+    }
+  );
+
+  faders.forEach(fader => {
+    appearOnScroll.observe(fader);
+  });
+</script>
 </html>

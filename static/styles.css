@@ -1,8 +1,15 @@
-
-body {
-    background-color: #343a40;  
-    color: whitesmoke;          
+*{
+    font-family: 'Inter', sans-serif;   
 }
+body {
+    background-color: #242527;  
+    color: whitesmoke;  
+    font-family: 'Inter', sans-serif;        
+}
+h1, h2, h3, .navbar-brand, .nav-link {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+  }
 
 .card {
     margin-bottom: 20px;
@@ -32,19 +39,39 @@ img{
     gap: 24px;
     padding: 0 20px;
   }
+.nav-link {
+    color: #0276d4;
+}
+.nav-item{
+    padding: 10px;
+}
   
 .col-md-6 {
-    background-color: #282c34; /* slightly lighter than body */
+    background-color: #2a2e3a; /* slightly lighter than body */
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     padding: 30px;
     flex: 0 0 45%;
     max-width: 45%;
     min-width: 300px;
+    margin-bottom: 80px;
   }
-  
+.col-12{
+    background-color: #2a2e3a; /* slightly lighter than body */
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin-bottom: 80px;
+}
+.col {
+    background-color: #2a2e3a;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    
+}
 h1, h2 {
-    color: #61dafb; /* React blue for headers */
+    color: #ffffff; /* React blue for headers */
     margin-bottom: 20px;
   }
   
@@ -57,6 +84,21 @@ li {
     margin-bottom: 16px;
     font-size: 1.1rem;
     line-height: 1.5;
+  }
+.emoji {
+    font-size: 1.5rem; /* Try 1.25rem–2rem depending on how big you want it */
+   
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   /* Optional: Better stacking for small screens */
