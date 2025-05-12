@@ -6,58 +6,79 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="/static/styles.css">
         <title>FlexFlow</title>
     </head>
     <body class="text-center bg-dark text-light">
         
         <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
             <header class="masthead mb-auto">
-              <div class="inner">
-                <h3 class="masthead-brand">FlexFlow</h3>
-                <nav class="nav nav-masthead justify-content-center">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item">
-                          <a class="nav-link " href="{{url_for('homepage')}}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link active" href="{{url_for('response')}}">Create A Workout</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#">FAQ</a>
-                        </li>
-                        
-                      </ul>
+              <div class="inner text-center">
+                <nav class="navbar navbar-expand-lg px-3 py-1 d-flex justify-content-between align-items-center" style="min-height: 60px;">
+                  <a href="{{ url_for('homepage') }}" class="navbar-brand">
+                    <img src="{{ url_for('static', filename='images/flexflow-logo.png') }}" alt="FlexFlow Logo" style="max-height: 60px;">
+                  </a>
+                
+                  <ul class="nav nav-pills">
+                    <li class="nav-item">
+                      <a class="nav-link bg-white px-4 py-2 rounded-pill me-2" href="{{ url_for('response') }}">Create A Workout</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link  bg-white px-4 py-2 rounded-pill me-2" href= "#">FAQ</a>
+                  </ul>
                 </nav>
               </div>
             </header>
         </div>
-        <form method="POST" action="{{ url_for('workoutgen') }}">
-          <div class="mb-3">
-              <label for="height">Height</label>
-              <input type="text" class="form-control" id="height" name="height" required>
-          </div>
-          <div class="mb-3">
-              <label for="weight">Weight</label>
-              <input type="text" class="form-control" id="weight" name="weight" required>
-          </div>
-          <div class="mb-3">
-              <label for="program">Program</label>
-              <input type="text" class="form-control" id="program" name="program" required>
-          </div>
-          <div class="mb-3">
-              <label for="calorie">Calorie Goal</label>
-              <input type="text" class="form-control" id="calorie" name="calorie" required>
-          </div>
-          <div class="mb-3">
-              <label for="sex">Sex</label>
-              <input type="text" class="form-control" id="sex" name="sex" required>
-          </div>
-          <div class="mb-3">
-              <label for="freq">Frequency (days/week)</label>
-              <input type="number" class="form-control" id="freq" name="freq" required>
-          </div>
-          <button type="submit" class="btn btn-success">Generate Workout</button>
-      </form>
+
+      
+        <div class="container text-light my-5">
+          <h1 class="text-center mb-2">Create Your Workout Plan</h1>
+          <p class="text-center mb-5 text-muted">Tell us about your training goals so we can build a personalized program for you.</p>
+        
+          <form method="POST" action="{{ url_for('workoutgen') }}">
+            <div class="row g-4">
+        
+              <div class="col-md-6">
+                <label for="height" class="form-label">Height</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="height" name="height" required>
+              </div>
+        
+              <div class="col-md-6">
+                <label for="weight" class="form-label">Weight</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="weight" name="weight" required>
+              </div>
+        
+              <div class="col-md-6">
+                <label for="program" class="form-label">Program</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="program" name="program" required>
+              </div>
+        
+              <div class="col-md-6">
+                <label for="calorie" class="form-label">Calorie Goal</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="calorie" name="calorie" required>
+              </div>
+        
+              <div class="col-md-6">
+                <label for="sex" class="form-label">Sex</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="sex" name="sex" required>
+              </div>
+        
+              <div class="col-md-6">
+                <label for="freq" class="form-label">Frequency (days/week)</label>
+                <input type="number" class="form-control bg-dark text-light border-secondary" id="freq" name="freq" required>
+              </div>
+        
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn bg-white text-dark px-5 py-2 rounded-pill fw-bold">Generate Workout</button>
+              </div>
+        
+            </div>
+          </form>
+        </div>
+        
     <!-- Bootstrap JS and Popper.js scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-4S6sQ4NhdJH8gEEMGQGkTAMKsVcAJrkoHf0J9vENkSy1dQdZg4FOHJTBpZuut9iM" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.min.js" integrity="sha384-l6dUGU1Hl3qq4TfycGzRkmpSwFQ5Bi6B2sFSJ6fBqxJKgfcMzNef0l3vOiwy7Lhe" crossorigin="anonymous"></script>

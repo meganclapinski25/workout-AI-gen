@@ -2,7 +2,7 @@
     font-family: 'Inter', sans-serif;   
 }
 body {
-    background-color: #242527;  
+    background-color: #121213;  
     color: whitesmoke;  
     font-family: 'Inter', sans-serif;        
 }
@@ -49,27 +49,63 @@ img{
 .col-md-6 {
     background-color: #2a2e3a; /* slightly lighter than body */
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+
     padding: 30px;
     flex: 0 0 45%;
     max-width: 45%;
     min-width: 300px;
     margin-bottom: 80px;
   }
+.col-md-4{
+    background-color: #2a2e3a; /* slightly lighter than body */
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    flex: 0 0 45%;
+    max-width: 45%;
+    min-width: 300px;
+    margin-bottom: 80px;
+
+}
+.col-auto{ 
+        color: black;
+        background-color: #2a2e3a;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+        
+        margin-bottom: 80px;
+        color: whitesmoke;
+      
+}
+
+.card{
+    background-color: #2a2e3a; /* slightly lighter than body */
+    border-radius: 16px;
+    border: none;
+}
 .col-12{
     background-color: #2a2e3a; /* slightly lighter than body */
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
     padding: 30px;
     margin-bottom: 80px;
 }
-.col {
+.col-lg {
     background-color: #2a2e3a;
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
     padding: 30px;
     
 }
+.col, .col-md-4, .col-md-6, .col-12 {
+    transition: transform 0.2s ease;
+  }
+  .col:hover, .col-md-4:hover, .col-md-6:hover, .col-12:hover {
+    transform: translateY(-4px);
+    
+  }
+  
 h1, h2 {
     color: #ffffff; /* React blue for headers */
     margin-bottom: 20px;
@@ -100,6 +136,7 @@ li {
     opacity: 1;
     transform: translateY(0);
   }
+  
   
   /* Optional: Better stacking for small screens */
 @media (max-width: 768px) {
