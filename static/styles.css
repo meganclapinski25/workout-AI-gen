@@ -156,7 +156,9 @@ li {
     border-radius: 50px;
     font-weight: 600;
   }
-  /* Optional: Better stacking for small screens */
+
+
+  
 @media (max-width: 768px) {
     .col-md-6 {
       flex: 0 0 100%;

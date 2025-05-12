@@ -5,46 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Plan</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body class="text-center bg-dark text-light">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
-            <div class="inner">
-                <a href="{{ url_for('homepage') }}" style="text-decoration: none; font-size: 24px; color: whitesmoke;">Flex Flow</a>
-                <nav class="nav nav-masthead justify-content-center">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{{ url_for('register') }}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">FAQ</a>
-                        </li>
-                    </ul>
-                </nav>
+            <div class="inner text-center">
+              <nav class="navbar navbar-expand-lg px-3 py-1 d-flex justify-content-between align-items-center" style="min-height: 60px;">
+                <a href="{{ url_for('homepage') }}" class="navbar-brand">
+                  <img src="{{ url_for('static', filename='images/flexflow-logo.png') }}" alt="FlexFlow Logo" style="max-height: 60px;">
+                </a>
+              
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a class="nav-link bg-white px-4 py-2 rounded-pill me-2" href="{{ url_for('response') }}">Create A Workout</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link  bg-white px-4 py-2 rounded-pill me-2" href= "#">FAQ</a>
+                </ul>
+              </nav>
+              
+              
             </div>
-        </header>
+          </header>
 
         <h1 class="text-center">Workout Plan</h1>
 
         <!-- Workout Program Section -->
         <div class="container-fluid mt-5">
             <div class="container">
-                {% if workout_cards %}
-                    {% for card in workout_cards %}
-                        <div class="card mt-3" style="color:black;">
-                            <div class="card-body">
-                                <p class="card-text" style="color: black;">{{ card | safe }}</p>
-                            </div>
+              {% if workout_cards %}
+                <div class="row">
+                  {% for card in workout_cards %}
+                    <div class="col-md-6 mb-4">
+                      <div class="workout-card h-100">
+                        <div class="card-body">
+                          <p class="card-text">{{ card | safe }}</p>
                         </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No workout details available.</p> <!-- Handle case where workouts are empty -->
-                {% endif %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted">No workout details available.</p>
+              {% endif %}
             </div>
-        </div>
+            
+          </div>
+          
     </div>
 </body>
+<footer class="bg-dark text-light py-4 mt-5 border-top border-secondary">
+    <div class="container text-center">
+      <p class="mb-1">© {{ year }} FlexFlow. All rights reserved.</p>
+      <p class="mb-0 small text-muted">Built by Megan Clapinski • For athletes, by athletes.</p>
+    </div>
+  </footer>
 </html>
