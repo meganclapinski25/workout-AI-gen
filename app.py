@@ -75,12 +75,17 @@ def workoutgen():
     conn.commit()
     cur.close()
      # Generate workout plan using ChatGPT
-    prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Separate each workout by day."
+    prompt = f"""
+    Using the following user information:
+     Height: {height}
+     Weight: {weight}. Create a workout program for the sport: {program}, {freq} day(s) a week.
+     Label each day clearly as "Day 1", "Day 2", etc. Format each day's workout as a separate entry.
+     """
     response = client1.completions.create(
-        model="gpt-3.5-turbo-instruct",
-        prompt=prompt,
-        max_tokens=4000
-    )
+            model="gpt-3.5-turbo-instruct",
+            prompt=prompt,
+            max_tokens=4000
+        )
 
     generated_response = response.choices[0].text.strip()
     # # Generate workout plan using ChatGPT
