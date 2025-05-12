@@ -137,7 +137,25 @@ li {
     transform: translateY(0);
   }
   
-  
+
+
+
+  .form-label-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.75rem; /* roughly h2/h1 size */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .btn-bold-pill {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+  }
   /* Optional: Better stacking for small screens */
 @media (max-width: 768px) {
     .col-md-6 {

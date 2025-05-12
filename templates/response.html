@@ -39,45 +39,46 @@
           <p class="text-center mb-5 text-muted">Tell us about your training goals so we can build a personalized program for you.</p>
         
           <form method="POST" action="{{ url_for('workoutgen') }}">
-            <div class="row g-4">
+            <div class="row gy-2 gx-3">
         
               <div class="col-md-6">
-                <label for="height" class="form-label">Height</label>
+                <label for="height" class="form-label form-label-big">Height</label>
                 <input type="text" class="form-control bg-dark text-light border-secondary" id="height" name="height" required>
               </div>
         
               <div class="col-md-6">
-                <label for="weight" class="form-label">Weight</label>
+                <label for="weight" class="form-label form-label-big">Weight</label>
                 <input type="text" class="form-control bg-dark text-light border-secondary" id="weight" name="weight" required>
               </div>
         
               <div class="col-md-6">
-                <label for="program" class="form-label">Program</label>
+                <label for="program" class="form-label form-label-big">Program</label>
                 <input type="text" class="form-control bg-dark text-light border-secondary" id="program" name="program" required>
               </div>
         
               <div class="col-md-6">
-                <label for="calorie" class="form-label">Calorie Goal</label>
+                <label for="calorie" class="form-label form-label-big">Calorie Goal</label>
                 <input type="text" class="form-control bg-dark text-light border-secondary" id="calorie" name="calorie" required>
               </div>
         
               <div class="col-md-6">
-                <label for="sex" class="form-label">Sex</label>
+                <label for="sex" class="form-label form-label-big">Sex</label>
                 <input type="text" class="form-control bg-dark text-light border-secondary" id="sex" name="sex" required>
               </div>
         
               <div class="col-md-6">
-                <label for="freq" class="form-label">Frequency (days/week)</label>
+                <label for="freq" class="form-label form-label-big">Frequency (days/week)</label>
                 <input type="number" class="form-control bg-dark text-light border-secondary" id="freq" name="freq" required>
               </div>
         
               <div class="col-12 text-center mt-4">
-                <button type="submit" class="btn bg-white text-dark px-5 py-2 rounded-pill fw-bold">Generate Workout</button>
+                <button type="submit" class="btn bg-white text-dark btn-bold-pill">Generate Workout</button>
               </div>
         
             </div>
           </form>
         </div>
+        
         
     <!-- Bootstrap JS and Popper.js scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-4S6sQ4NhdJH8gEEMGQGkTAMKsVcAJrkoHf0J9vENkSy1dQdZg4FOHJTBpZuut9iM" crossorigin="anonymous"></script>
