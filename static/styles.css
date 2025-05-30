@@ -137,6 +137,9 @@ li {
     opacity: 1;
     transform: translateY(0);
   }
+  .why-box {
+    min-height: 100%; 
+  }
   
 
 

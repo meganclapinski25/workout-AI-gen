@@ -9,7 +9,7 @@ import re
 load_dotenv()
 
 client1 = openai.OpenAI(
-  api_key=os.environ['OPENAI_API_KEY'],  # this is also the default, it can be omitted
+  api_key=os.environ['OPENAI_API_KEY'],  
 )
 
 app = Flask(__name__)
@@ -76,37 +76,49 @@ def workoutgen():
     cur.close()
      # Generate workout plan using ChatGPT
     prompt = f"""
-    Using the following user information:
-     Height: {height}
-     Weight: {weight}. Create a workout program for the sport: {program}, {freq} day(s) a week.
-     Label each day clearly as "Day 1", "Day 2", etc. Format each day's workout as a separate entry.
-     """
+            You are a strength and conditioning coach for atheltes. Based on the user profile below, generate a personalized workout plan split into {freq} days. Each day should include 4–6 exercises with sets and reps. Include warm-up and cool-down suggestions. Do not repeat exercises across days. Use bullet points and keep language brief and motivational.
+
+            At the end, add a final motivational note starting with 'Note:' on a new line.
+
+            User Profile:
+            - Height: {height}
+            - Weight: {weight}
+            - Sex: {sex}
+            - Calorie goal: {calorie}
+            - Goal: {program}
+            """
     response = client1.completions.create(
             model="gpt-3.5-turbo-instruct",
             prompt=prompt,
-            max_tokens=4000
+            max_tokens=2000
         )
 
     generated_response = response.choices[0].text.strip()
-    # # Generate workout plan using ChatGPT
-    # prompt = f"Using {height} {weight} {sex} and their calorie goal:{calorie} create a workout program for {program} {freq} day(s) a week. Separate each workout by day."
-    # response = client1.completions.create(
-    #     model="gpt-3.5-turbo-instruct",
-    #     prompt=prompt,
-    #     max_tokens=4000
-    # )
+    if "Note:" in generated_response:
+        workout_text, note_text = generated_response.rsplit("Note:", 1)
+        note_text = note_text.strip()
+    else:
+        workout_text = generated_response
+        note_text = None
     
-    # generated_response = response.choices[0].text.strip()
-    # print(f"Generated Response: {generated_response}")
-    
-    # Format the response into a list of workouts (splitting by days)
     workouts = [day.strip() for day in generated_response.split("Day")[1:] if day.strip()]
-
     workout_cards = []
+    
+    if note_text and workouts:
+   
+        last_day = workouts[-1]
+        if "Note:" in last_day:
+            last_day = last_day.split("Note:")[0].strip()
+            workouts[-1] = last_day
+
+    
     for i, day in enumerate(workouts):
-        day_content = f'<h2><strong>Day {i + 1}:</strong></h2>' + day.replace('\n', '<br>')  # Replace newlines with <br>
+    # Remove leading number prefix like '3:' or '4:'
+        day = re.sub(r'^\d+:\s*', '', day)
+
+        day_content = f'<h2><strong>Day {i + 1}:</strong></h2>' + day.replace('\n', '<br>')
         workout_cards.append(day_content)
-    # Pass the workouts to the template
+   
     
     return render_template(
         'users.html',
@@ -119,7 +131,8 @@ def workoutgen():
         freq=freq,
         generated_response=generated_response,
         workouts=workouts, 
-        workout_cards= workout_cards
+        workout_cards= workout_cards,
+        note_text= note_text
     )
 
 @app.route('/edit/<user_id>', methods=['GET', 'POST'])

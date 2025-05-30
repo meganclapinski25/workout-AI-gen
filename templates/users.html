@@ -49,8 +49,17 @@
                           <p class="card-text">{{ card | safe }}</p>
                         </div>
                       </div>
-                    </div>
+                    </div> 
                   {% endfor %}
+                  
+                  {% if note_text %}
+                    <div class="col-12 my-3">
+                      <div class="card bg-dark text-light p-4 shadow-sm">
+                        <h5 class="card-title">📝 Final Note</h5>
+                        <p class="card-text">{{ note_text }}</p>
+                      </div>
+                    </div>
+                {% endif %}
                 </div>
               {% else %}
                 <p class="text-muted">No workout details available.</p>
